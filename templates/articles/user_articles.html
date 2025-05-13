@@ -1,0 +1,36 @@
+{% extends 'articles/base.html' %}
+{% block title %}IPoster | Ваши публикации{% endblock %}
+
+{% block content %}
+    <h2>Ваши публикации</h2>
+
+    <div class="articles-feed">
+        {% for article in articles %}
+            <div class="article">
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.text }}</p>
+                <div class="article-info">
+                    <div class="article-author">{{ article.author.username }}</div>
+
+                    <span class="likes-count">{{ article.likes.count }} ❤️</span>
+
+                    <form method="post" action="{% url 'articles:delete_article' article.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Удалить</button>
+                    </form>
+
+                    <div class="article-date">
+                        {{ article.date|date:"d.m.Y H:i" }}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="articles-feed empty">
+                <div class="empty-state-container">
+                    <h1>Добро пожаловать в IPoster!</h1>
+                    <p>Здесь будут ваши статьи и публикации.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

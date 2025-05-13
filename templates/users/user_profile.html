@@ -1,0 +1,63 @@
+{% extends 'articles/base.html' %}
+
+{% block title %} Профиль | IPoster {% endblock %}
+
+{% block content %}
+    <h2>Профиль</h2>
+    <form method="post" class="article-form" action="{% url 'users:profile' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Никнейм:</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="alert alert-danger">
+                    {{ form.username.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">Имя:</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+                <div class="alert alert-danger">
+                    {{ form.first_name.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Фамилия:</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+                <div class="alert alert-danger">
+                    {{ form.last_name.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.about_self.id_for_label }}">О себе:</label>
+            {{ form.about_self }}
+            {% if form.about_self.errors %}
+                <div class="alert alert-danger">
+                    {{ form.about_self.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.birth_date.id_for_label }}">Дата рождения:</label>
+            {{ form.birth_date }}
+            {% if form.birth_date.errors %}
+                <div class="alert alert-danger">
+                    {{ form.birth_date.errors }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group post-count" >Количество публикаций: {{ post_count }}</div>
+<!--        <div class="form-group post-count" >Ваш профиль понравился {{ profile_likes }} людям</div>-->
+        <button type="submit" class="save-button">Сохранить изменения</button>
+    </form>
+{% endblock %}
+

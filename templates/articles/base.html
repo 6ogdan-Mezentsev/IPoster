@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load static %}
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'css/forms.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="{% url 'articles:home' %}" class="logo">IPoster</a>
+        <div class="menu">
+            {% if user.is_authenticated %}
+                <a href="{% url 'articles:home' %}">Главная</a>
+                <a href="{% url 'users:profile' %}">Профиль</a>
+                <a href="{% url 'articles:favorite_articles' %}">Избранное</a>
+                <a href="{% url 'articles:user_articles' %}">Мои публикации</a>
+                <a href="{% url 'notification:user_notifications' %}">Уведомления</a>
+                <a href="{% url 'articles:new_articles' %}" class="create-post-button">Создать новую публикацию</a>
+            {% endif %}
+        </div>
+        <div class="login-button">
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}">Выход</a>
+            {% else %}
+                <a href="{% url 'users:login' %}">Вход</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="content">
+        <div class="content-box">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

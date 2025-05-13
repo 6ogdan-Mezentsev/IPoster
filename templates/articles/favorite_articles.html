@@ -1,0 +1,46 @@
+{% extends 'articles/base.html' %}
+{% block title %}IPoster | Главная страница{% endblock %}
+
+{% block content %}
+
+    <h2>Избранные публикации</h2>
+
+    <div class="articles-feed">
+        {% for article in articles %}
+            <div class="article">
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.text }}</p>
+                <div class="article-info">
+                    <a class="article-author" href="{% url 'users:get_profile' user_id=article.author.id %}">
+                            {{ article.author.username }}
+                    </a>
+
+                    <span class="likes-count">{{ article.likes.count }} ❤️</span>
+
+                    <form method="post" action="{% url 'articles:toggle_article_like' article_id=article.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        {% if article.id in liked_articles %}
+                            <button type="submit" class="like-button">Убрать лайк</button>
+                        {% else %}
+                            <button type="submit" class="like-button">Поставить лайк</button>
+                        {% endif %}
+                    </form>
+
+                    <form method="post" action="{% url 'articles:remove_from_favorites' article.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="favorite-button remove-favorite">Удалить из избранного</button>
+                    </form>
+                    <div class="article-date">{{ article.date|date:"d.m.Y H:i" }}</div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="articles-feed empty">
+                <div class="empty-state-container">
+                    <h1>Добро пожаловать в IPoster!</h1>
+                    <p>Здесь будут ваши избранные публикации.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

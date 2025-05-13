@@ -1,0 +1,22 @@
+{% extends 'articles/base.html' %}
+{% block title %}IPoster | Ваши уведомления{% endblock %}
+
+{% block content %}
+    <h2>Уведомления</h2>
+
+    <ul>
+        {% for notification in notification_list %}
+            <li {% if not notification.is_read %} style="font-weight: bold;" {% endif %}>
+                {{ notification.message }} — {{ notification.created_at|date:"d.m.Y H:i" }}
+                {% if not notification.is_read %}
+                    <a href="{% url 'notification:mark_as_read' notification.id %}">Отметить как прочитанное</a>
+                {% else %}
+                    <a href="{% url 'notification:mark_as_read' notification.id %}">Убрать пометку прочитанное</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Нет уведомлений.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content%}
